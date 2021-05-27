@@ -36,4 +36,20 @@ router.post('/signup', (req, res, next) => {
   });
 });
 
+// express test
+// const app = express();
+router.get('/json', (req, res) => {
+  // json 형식의 데이터를 응답(반환)의 내용으로 전송
+  res.json([
+    {
+      'id': 950821,
+      'name': 'HHB'
+    },
+    {
+      'id': 711024,
+      'name': 'JBK'
+    },
+  ])
+});
+
 module.exports = router;
