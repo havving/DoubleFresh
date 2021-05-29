@@ -6,6 +6,14 @@ const logger = require('morgan');
 
 const app = express();
 
+const cors = require('cors');
+app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true
+}
+app.use(cors(corsOptions));
+
 // ★ index.js에서 routes 관리
 const routes = require('./routes');
 app.use('/', routes);
@@ -35,5 +43,27 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+// test
+app.get('/', function(req,res){
+  res.header("Access-Control-Allow-Origin", "*");
+  console.log('---get방식이 구동되었습니다.---');
+  const text = 'get으로 나타나는 데이터!';
+  console.log("전송데이터 : " + text)
+  res.send(text);
+});
+
+app.post('/data', function(req,res){
+  res.header("Access-Control-Allow-Origin", "*");
+  const data  = req.body;
+
+  console.log('---post방식이 구동되었습니다.---');
+  console.log(data);
+  const text = data.id + ' ' + data.name + ' ' + data.age + '살';
+  console.log("전송데이터 : " + text)
+  res.send(text);
+});
+
 
 module.exports = app;
