@@ -4,9 +4,17 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// passport
+const passport = require('./routes/config/passport');
+const bodyParser = require('body-parser');
+const flash = require('connect-flash')
+const expressSession = require('express-session');
+
+// cors
+const cors = require('cors');
+
 const app = express();
 
-const cors = require('cors');
 app.use(cors());
 
 // ★ view engine setup
@@ -19,7 +27,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ★ index.js에서 routes 관리
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
+// ★ passport
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(expressSession({
+  secret: 'my Key',
+  resave: true,
+  saveUninitialized:true
+}));
+
+// ★ index.js에서 routes 관리 (위치고정)
 const routes = require('./routes');
 app.use('/', routes);
 

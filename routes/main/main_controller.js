@@ -17,11 +17,6 @@ exports.data = (req, res, next) => {
     res.send(text);
 }
 
-
-exports.login = (req, res, next) => {
-    res.render('login', {page: 'login'})
-}
-
 exports.get = (req, res, next) => {
     res.json({id: req.params.id});
 }
