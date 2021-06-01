@@ -3,6 +3,9 @@ const mysql = require('mysql');
 const dbConfig = require('../config/db_config');
 const connection = mysql.createConnection(dbConfig);
 
+// passport
+const passport = require('../config/passport');
+
 exports.users = (req, res, next) => {
     res.send('Respond with a resource');
 }
@@ -34,6 +37,31 @@ exports.signup_insert = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     res.render('login', {page: 'login'});
+}
+
+exports.login_user = (req, res, next) => {
+    const id = req.body.id;
+    const pw = req.body.password;
+    const sql = 'SELECT * FROM user WHERE id=?';
+
+    connection.query(sql, [id], function (err, results) {
+        if (err) console.log(err);
+        if (results.length > 0) {
+            if (results[0].password == pw) {
+                res.send('login success!');
+            } else {
+                res.send('id and password does not match.');
+            }
+        } else {
+            res.send('id does not exists.');
+        }
+    });
+
+    passport.authenticate('local-login', {
+        successRedirect: '/user/loginSuccess',
+        failureRedirect: '/user/loginFail',
+        failureFlash: true
+    });
 }
 
 exports.loginSuccess = (req, res, next) => {
