@@ -6,9 +6,11 @@
 <body>
 <form action="/user/login_user" method="post" class="loginForm">
     <label for="id">ID</label>
-    <input name="id" type="text" required/>
+    <input name="id" type="text" value="<%= userId %>" required/>
     <label for="password">PASSWORD</label>
     <input name="password" type="password" required/>
+    <label for="rememberId">ID 저장</label>
+    <input type="checkbox" value="checked" name="rememberId"/>
     <button class="btn">Login!</button>
 </form>
 </body>

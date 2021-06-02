@@ -8,7 +8,7 @@ const logger = require('morgan');
 const passport = require('./routes/config/passport');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash')
-const expressSession = require('express-session');
+const session = require('express-session');
 
 // cors
 const cors = require('cors');
@@ -34,9 +34,9 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(expressSession({
+app.use(session({
   secret: 'my Key',
-  resave: true,
+  resave: false,
   saveUninitialized:true
 }));
 

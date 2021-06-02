@@ -6,21 +6,11 @@ passport.use('local-login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, (req, id, password, done) => {
-    console.log('passport의 local-login : ', id, password)
-
-    if (id != req|| password != "1111") {
-        console.log('비밀번호 불일치!')
-        return done(null, false, req.flash('loginMessage', '비밀번호 불일치!'));
-    }
-
-    console.log('비밀번호 일치!')
-    return done(null, {
-        id: id,
-        password: password
-    });
+    console.log('passport local-login : ', id, password)
 
 }));
 
+// 사용자 인증에 성공했을 때 호출
 passport.serializeUser(function (user, done) {
     console.log('serializeUser() 호출됨.');
     console.log(user);
@@ -28,6 +18,7 @@ passport.serializeUser(function (user, done) {
     done(null, user);
 });
 
+// 사용자 인증 이후, 사용자 요청이 있을 때마다 호출
 passport.deserializeUser(function (user, done) {
     console.log('deserializeUser() 호출됨.');
     console.log(user);
