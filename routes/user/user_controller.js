@@ -36,32 +36,52 @@ exports.signup_insert = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    res.render('login', {page: 'login'});
+    let userId = "";
+    if (req.cookies['loginId'] !== undefined) {
+        console.log('로그인 정보 있음');
+        userId = req.cookies['loginId'];
+    }
+    res.render('login', {page: 'login', userId: userId});
 }
 
 exports.login_user = (req, res, next) => {
     const id = req.body.id;
-    const pw = req.body.password;
-    const sql = 'SELECT * FROM user WHERE id=?';
+    const password = req.body.password;
+    const rememberId = req.body.rememberId;
+    console.log("id : " + id);
+    console.log("pwd : " + password);
+    console.log("아이디 저장? : " + rememberId);
 
+    if (rememberId === "checked") {
+        res.cookie('loginId', id);
+    }
+
+    console.log(req.session);
+    req.session.user_id = id;
+    console.log(req.session.user_id);
+
+    const sql = 'SELECT * FROM user WHERE id=?';
     connection.query(sql, [id], function (err, results) {
         if (err) console.log(err);
         if (results.length > 0) {
-            if (results[0].password == pw) {
-                res.send('login success!');
+            if (results[0].password == password) {
+                console.log('login success!');
+                res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
             } else {
-                res.send('id and password does not match.');
+                console.log('id and password does not match.');
+                res.render('loginFail', {page: 'loginFail'});
             }
         } else {
-            res.send('id does not exists.');
+            console.log('id does not exists.');
+            res.render('loginFail', {page: 'loginFail'});
         }
     });
 
-    passport.authenticate('local-login', {
+/*    passport.authenticate('local-login', {
         successRedirect: '/user/loginSuccess',
         failureRedirect: '/user/loginFail',
         failureFlash: true
-    });
+    });*/
 }
 
 exports.loginSuccess = (req, res, next) => {
