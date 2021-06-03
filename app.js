@@ -34,6 +34,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+// ★ session
 app.use(session({
   secret: 'my Key',
   resave: false,
