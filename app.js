@@ -5,7 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 // passport
-const passport = require('./routes/config/passport');
+const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
+// const passport = require('./routes/config/passport');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash')
 const session = require('express-session');
@@ -30,9 +31,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-// ★ passport
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
 // ★ session
 app.use(session({
@@ -40,6 +38,9 @@ app.use(session({
   resave: false,
   saveUninitialized:true
 }));
+// ★ passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // ★ index.js에서 routes 관리 (위치고정)
 const routes = require('./routes');

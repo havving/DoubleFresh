@@ -66,22 +66,22 @@ exports.login_user = (req, res, next) => {
         if (results.length > 0) {
             if (results[0].password == password) {
                 console.log('login success!');
-                res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
+                // res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
             } else {
                 console.log('id and password does not match.');
-                res.render('loginFail', {page: 'loginFail'});
+                // res.render('loginFail', {page: 'loginFail'});
             }
         } else {
             console.log('id does not exists.');
-            res.render('loginFail', {page: 'loginFail'});
+            // res.render('loginFail', {page: 'loginFail'});
         }
     });
 
-/*    passport.authenticate('local-login', {
+    passport.authenticate('local-login', {
         successRedirect: '/user/loginSuccess',
         failureRedirect: '/user/loginFail',
         failureFlash: true
-    });*/
+    });
 }
 
 exports.loginSuccess = (req, res, next) => {
