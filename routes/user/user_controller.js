@@ -61,26 +61,23 @@ exports.login_user = (req, res, next) => {
     console.log(req.session.user_id);
 
     const sql = 'SELECT * FROM user WHERE id=?';
-    connection.query(sql, [id], function (err, results) {
+    connection.query(sql, [id], function (err, result) {
         if (err) console.log(err);
-        if (results.length > 0) {
-            if (results[0].password == password) {
+        if (result.length > 0) {
+            if (result[0].password == password) {
                 console.log('login success!');
-                // res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
+                const json = JSON.stringify(result[0]);
+                const userInfo = JSON.parse(json);
+                console.log('userInfo : ' + userInfo);
+                res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
             } else {
                 console.log('id and password does not match.');
-                // res.render('loginFail', {page: 'loginFail'});
+                res.render('loginFail', {page: 'loginFail'});
             }
         } else {
             console.log('id does not exists.');
-            // res.render('loginFail', {page: 'loginFail'});
+            res.render('loginFail', {page: 'loginFail'});
         }
-    });
-
-    passport.authenticate('local-login', {
-        successRedirect: '/user/loginSuccess',
-        failureRedirect: '/user/loginFail',
-        failureFlash: true
     });
 }
 

@@ -5,8 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 // passport
-const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
-// const passport = require('./routes/config/passport');
+const passport = require('./routes/config/passport');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash')
 const session = require('express-session');

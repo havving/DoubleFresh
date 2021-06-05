@@ -1,12 +1,34 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
+// ★ DB connection
+const mysql = require('mysql');
+const dbConfig = require('../config/db_config');
+const connection = mysql.createConnection(dbConfig);
 
-passport.use('local-login', new LocalStrategy({
+passport.use('local', new LocalStrategy({
     usernameField: 'id',
     passwordField: 'password',
-    passReqToCallback: true
-}, (req, id, password, done) => {
-    console.log('passport local-login : ', id, password)
+    // passReqToCallback: true
+}, (id, password, done) => {
+    const sql = 'SELECT * FROM user WHERE id=?';
+    connection.query(sql, [id], function (err, result) {
+        if (err) console.log(err);
+        if (result.length > 0) {
+            if (result[0].password == password) {
+                console.log('login success!');
+                const json = JSON.stringify(result[0]);
+                const userInfo = JSON.parse(json);
+                console.log('userInfo : ' + userInfo);
+                return done(null, userInfo);
+            } else {
+                console.log('id and password does not match.');
+                return done(null, false, { message: 'Incorrect'});
+            }
+        } else {
+            console.log('id does not exists.');
+            return done(null, false, { message: 'Incorrect'});
+        }
+    });
 
 }));
 
