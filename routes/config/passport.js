@@ -29,23 +29,26 @@ passport.use('local', new LocalStrategy({
             return done(null, false, { message: 'Incorrect'});
         }
     });
-
 }));
 
 // 사용자 인증에 성공했을 때 호출
 passport.serializeUser(function (user, done) {
-    console.log('serializeUser() 호출됨.');
-    console.log(user);
-
-    done(null, user);
+    console.log('serializeUser : ', user);
+    done(null, user.id);
 });
 
 // 사용자 인증 이후, 사용자 요청이 있을 때마다 호출
-passport.deserializeUser(function (user, done) {
-    console.log('deserializeUser() 호출됨.');
-    console.log(user);
+passport.deserializeUser(function (id, done) {
+    console.log('deserializeUser id : ', id);
+    const sql = 'SELECT * FROM user WHERE id=?';
+    connection.query(sql, [id], function (err, result) {
+        if (err) console.log(err);
 
-    done(null, user);
+        console.log('deserializeUser MySql result : ', result);
+        const json = JSON.stringify(result[0]);
+        const userInfo = JSON.parse(json);
+        done(null, userInfo);
+    })
 });
 
 
