@@ -45,9 +45,13 @@ exports.login = (req, res, next) => {
 }
 
 exports.login_user = (req, res, next) => {
-    const id = req.body.id;
-    const password = req.body.password;
-    const rememberId = req.body.rememberId;
+    res.header("Access-Control-Allow-Origin", "*");
+    let isLogin = false;
+    const data  = req.body;
+
+    const id = data.id;
+    const password = data.password;
+    const rememberId = data.rememberId;
     console.log("id : " + id);
     console.log("pwd : " + password);
     console.log("아이디 저장? : " + rememberId);
@@ -66,13 +70,14 @@ exports.login_user = (req, res, next) => {
         if (result.length > 0) {
             if (result[0].password == password) {
                 console.log('login success!');
-                const json = JSON.stringify(result[0]);
-                const userInfo = JSON.parse(json);
-                console.log('userInfo : ' + userInfo);
-                res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
+                // const text = 'ID: ' + id;
+                isLogin = true;
+                res.send(isLogin);
+                // res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
             } else {
                 console.log('id and password does not match.');
-                res.render('loginFail', {page: 'loginFail'});
+                res.send('ID and Password does not match.');
+                // res.render('loginFail', {page: 'loginFail'});
             }
         } else {
             console.log('id does not exists.');
