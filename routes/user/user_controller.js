@@ -81,7 +81,8 @@ exports.login_user = (req, res, next) => {
             }
         } else {
             console.log('id does not exists.');
-            res.render('loginFail', {page: 'loginFail'});
+            res.send('ID does not exists.');
+            // res.render('loginFail', {page: 'loginFail'});
         }
     });
 }
