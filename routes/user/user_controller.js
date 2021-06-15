@@ -6,8 +6,18 @@ const connection = mysql.createConnection(dbConfig);
 // passport
 const passport = require('../config/passport');
 
-exports.users = (req, res, next) => {
-    res.send('Respond with a resource');
+// model
+const model = require('../../models');
+
+exports.users = async (req, res, next) => {
+    try {
+        const user = await model.User_Info.findAll();
+        res.send(user);
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+    // res.send('Respond with a resource');
 }
 
 exports.signup = (req, res, next) => {

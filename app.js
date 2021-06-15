@@ -10,10 +10,14 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash')
 const session = require('express-session');
 
+// sequelize
+const sequelize = require('./models/index').sequelize;
+
 // cors
 const cors = require('cors');
 
 const app = express();
+sequelize.sync();
 
 app.use(cors());
 
