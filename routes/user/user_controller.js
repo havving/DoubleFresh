@@ -17,7 +17,6 @@ exports.users = async (req, res, next) => {
         console.error(error);
         next(error);
     }
-    // res.send('Respond with a resource');
 }
 
 exports.signup = (req, res, next) => {
