@@ -53,10 +53,10 @@ exports.login = (req, res, next) => {
     res.render('login', {page: 'login', userId: userId});
 }
 
-exports.login_user = (req, res, next) => {
+exports.login_user = async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     let isLogin = false;
-    const data  = req.body;
+    const data = req.body;
 
     const id = data.id;
     const password = data.password;
@@ -72,6 +72,11 @@ exports.login_user = (req, res, next) => {
     console.log(req.session);
     req.session.user_id = id;
     console.log(req.session.user_id);
+
+    const user = await model.User_Info.findOne(
+
+    )
+    console.log(user);
 
     const sql = 'SELECT * FROM user WHERE id=?';
     connection.query(sql, [id], function (err, result) {
