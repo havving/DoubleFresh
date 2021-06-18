@@ -18,9 +18,10 @@ router.post('/login_user', controller.login_user);
     failureRedirect: '/user/loginFail',
     failureFlash: true}));*/
 
-router.get('/loginSuccess', controller.loginSuccess);
-router.get('/loginFail', controller.loginFail);
-
+/** Logout **/
 router.get('/logout', controller.logout);
+
+/** PW Modify **/
+router.put('/pw_modify', controller.pw_modify);
 
 module.exports = router;

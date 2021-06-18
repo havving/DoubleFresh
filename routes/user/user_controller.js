@@ -53,17 +53,14 @@ exports.login = (req, res, next) => {
     res.render('login', {page: 'login', userId: userId});
 }
 
+/** Login **/
 exports.login_user = async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
-    let isLogin = false;
     const data = req.body;
 
     const id = data.id;
     const password = data.password;
     const rememberId = data.rememberId;
-    console.log("id : " + id);
-    console.log("pwd : " + password);
-    console.log("아이디 저장? : " + rememberId);
 
     if (rememberId === "checked") {
         res.cookie('loginId', id);
@@ -73,12 +70,25 @@ exports.login_user = async (req, res, next) => {
     req.session.user_id = id;
     console.log(req.session.user_id);
 
-    const user = await model.User_Info.findOne(
+    const user = await model.User_Info.findOne({
+        where: {id: id}
+    });
 
-    )
-    console.log(user);
+    if (user !== null) {
+        if (user.password === password) {
+            console.log('login success!');
+            res.json(user);
+        } else {
+            console.log('id and password does not match.');
+            res.send('ID and Password does not match.');
+        }
+    } else {
+        console.log('id does not exists.');
+        res.send('ID does not exists.');
+    }
 
-    const sql = 'SELECT * FROM user WHERE id=?';
+    // SQL
+    /*const sql = 'SELECT * FROM user_info WHERE id=?';
     connection.query(sql, [id], function (err, result) {
         if (err) console.log(err);
         if (result.length > 0) {
@@ -98,18 +108,34 @@ exports.login_user = async (req, res, next) => {
             res.send('ID does not exists.');
             // res.render('loginFail', {page: 'loginFail'});
         }
-    });
+    });*/
 }
 
-exports.loginSuccess = (req, res, next) => {
-    res.render('loginSuccess', {page: 'loginSuccess'});
-}
-
-exports.loginFail = (req, res, next) => {
-    res.render('loginFail', {page: 'loginFail'});
-}
-
+/** Logout **/
 exports.logout = (req, res, next) => {
     req.logout();
     res.redirect('/user/login');
+};
+
+/** PW Modify **/
+exports.pw_modify = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const newPassword = data.newPassword;
+
+    const user = await model.User_Info.update({
+        password: newPassword
+    }, {
+        where: {id: id}
+    })
+        .then(result => {
+            console.log('비밀번호가 변경되었습니다.');
+            res.send('비밀번호가 변경되었습니다.')
+        })
+        .catch(err => {
+            console.log('비밀번호 변경을 실패했습니다.');
+            res.send('비밀번호 변경을 실패했습니다.')
+        });
 }
