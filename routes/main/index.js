@@ -11,4 +11,7 @@ router.get('/documents/:id', controller.get);
 // express test
 router.get('/json', controller.json);
 
+/** Scheduler Time **/
+router.post('/schedule_time', controller.schedule_time);
+
 module.exports = router;

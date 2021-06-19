@@ -125,7 +125,7 @@ exports.pw_modify = async (req, res, next) => {
     const id = data.id;
     const newPassword = data.newPassword;
 
-    const user = await model.User_Info.update({
+    await model.User_Info.update({
         password: newPassword
     }, {
         where: {id: id}
