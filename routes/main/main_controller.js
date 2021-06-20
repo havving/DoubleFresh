@@ -38,8 +38,8 @@ exports.json = (req, res, next) => {
     ])
 }
 
-/** Scheduler Time **/
-exports.schedule_time = async (req, res, next) => {
+/** Pickup Time **/
+exports.pickup_time = async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     const data = req.body;
 
@@ -80,6 +80,50 @@ exports.schedule_time = async (req, res, next) => {
                 res.send('예약시간 수정 실패');
             });
     }
+}
 
+/** Fixed Pickup Time **/
+exports.fixed_pickup_time = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
 
+    const id = data.id;
+    const time = data.time;
+
+    await model.Subscription_Detail.update({
+        pickup_fixed_time: time
+    }, {
+        where: {id: id}
+    })
+        .then(result => {
+            console.log('픽업시간이 고정되었습니다.');
+            res.send('픽업시간이 고정되었습니다.')
+        })
+        .catch(err => {
+            console.log('픽업시간 고정에 실패했습니다.');
+            res.send('픽업시간 고정에 실패했습니다.')
+        });
+}
+
+/** Fixed Pickup Date **/
+exports.fixed_pickup_date = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const date = data.date;
+
+    await model.Subscription_Detail.update({
+        pickup_fixed_date: date.toString()
+    }, {
+        where: {id: id}
+    })
+        .then(result => {
+            console.log('픽업 날짜가 고정되었습니다.');
+            res.send('픽업 날짜가 고정되었습니다.')
+        })
+        .catch(err => {
+            console.log('픽업 날짜 고정에 실패했습니다.');
+            res.send('픽업 날짜 고정에 실패했습니다.')
+        });
 }

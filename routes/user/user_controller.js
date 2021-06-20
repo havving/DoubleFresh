@@ -139,3 +139,26 @@ exports.pw_modify = async (req, res, next) => {
             res.send('비밀번호 변경을 실패했습니다.')
         });
 }
+
+/** Request Modify **/
+exports.request_modify = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const request = data.request;
+
+    await model.Subscription_Detail.update({
+        request: request
+    }, {
+        where: {id: id}
+    })
+        .then(result => {
+            console.log('요청사항이 수정되었습니다.');
+            res.send('요청사항이 수정되었습니다.')
+        })
+        .catch(err => {
+            console.log('요청사항 수정에 실패했습니다.');
+            res.send('요청사항 수정에 실패했습니다.')
+        });
+}

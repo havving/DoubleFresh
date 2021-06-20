@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     pickup_fixed_time: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.TIME,
       allowNull: true
     }
   }, {

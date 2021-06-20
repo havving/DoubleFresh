@@ -11,7 +11,13 @@ router.get('/documents/:id', controller.get);
 // express test
 router.get('/json', controller.json);
 
-/** Scheduler Time **/
-router.post('/schedule_time', controller.schedule_time);
+/** Pickup Time **/
+router.put('/pickup_time', controller.pickup_time);
+
+/** Fixed Pickup Time **/
+router.put('/fixed_pickup_time', controller.fixed_pickup_time);
+
+/** Fixed Pickup Date **/
+router.put('/fixed_pickup_date', controller.fixed_pickup_date);
 
 module.exports = router;
