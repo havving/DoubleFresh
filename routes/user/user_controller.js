@@ -162,3 +162,23 @@ exports.request_modify = async (req, res, next) => {
             res.send('요청사항 수정에 실패했습니다.')
         });
 }
+
+/** Subscription Info **/
+exports.subscription = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const subscription = await model.Subscription.findOne({
+        where: {id: id}
+    });
+
+    if (subscription == null) {
+        res.send('N');
+    } else {
+        const subscription_detail = await model.Subscription_Detail.findOne({
+            where: {id: id}
+        });
+        res.json(subscription_detail);
+    }
+}

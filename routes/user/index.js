@@ -27,4 +27,7 @@ router.put('/pw_modify', controller.pw_modify);
 /** Request Modify **/
 router.put('/request_modify', controller.request_modify);
 
+/** Subscription Info **/
+router.post('/subscription', controller.subscription);
+
 module.exports = router;
