@@ -173,7 +173,7 @@ exports.subscription = async (req, res, next) => {
         where: {id: id}
     });
 
-    if (subscription == null) {
+    if (subscription.status == 'N') {
         res.send('N');
     } else {
         const subscription_detail = await model.Subscription_Detail.findOne({
