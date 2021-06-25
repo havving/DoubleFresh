@@ -46,6 +46,7 @@ exports.pickup_time = async (req, res, next) => {
     const id = data.id;
     const day = data.day;
     const time = data.time;
+    const salad = data.salad;
 
     const pickup_info = await model.Pickup_Info.findOne({
         where: {id: id, day: day}
@@ -55,7 +56,8 @@ exports.pickup_time = async (req, res, next) => {
         await model.Pickup_Info.create({
             id: id,
             day: day,
-            time: time
+            time: time,
+            salad: salad
         })
             .then(result => {
                 console.log('데이터 추가 완료');

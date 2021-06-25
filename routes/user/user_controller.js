@@ -177,6 +177,9 @@ exports.subscription = async (req, res, next) => {
         res.send('N');
     } else {
         const subscription_detail = await model.Subscription_Detail.findOne({
+            include: [{
+                model: model.Pickup_Info
+            }],
             where: {id: id}
         });
         res.json(subscription_detail);

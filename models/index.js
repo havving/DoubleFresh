@@ -19,4 +19,9 @@ db.Pickup_Info = require('./pickup_info') (sequelize, Sequelize);
 db.Subscription = require('./subscription') (sequelize, Sequelize);
 db.Subscription_Detail = require('./subscription_detail') (sequelize, Sequelize);
 
+db.Subscription_Detail.hasMany(db.Pickup_Info);
+db.Pickup_Info.belongsTo(db.Subscription_Detail, {
+    foreignKey: "subscriptionDetailId",
+});
+
 module.exports = db;

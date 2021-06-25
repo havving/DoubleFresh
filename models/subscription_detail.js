@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('subscription_detail', {
+  const subscription_detail =  sequelize.define('subscription_detail', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -49,4 +49,13 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+
+  subscription_detail.associate = function (models) {
+    models.Subscription_Detail.hasMany(models.Pickup_Info, {
+      foreignKey: 'id',
+      onDelete: 'cascade',
+    });
+  };
+
+  return subscription_detail;
 };
