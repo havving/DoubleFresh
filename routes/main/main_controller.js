@@ -49,12 +49,12 @@ exports.pickup_time = async (req, res, next) => {
     const salad = data.salad;
 
     const pickup_info = await model.Pickup_Info.findOne({
-        where: {id: id, day: day}
+        where: {subscriptionDetailId: id, day: day}
     });
 
     if (pickup_info == null) {
         await model.Pickup_Info.create({
-            id: id,
+            subscriptionDetailId: id,
             day: day,
             time: time,
             salad: salad
@@ -71,7 +71,7 @@ exports.pickup_time = async (req, res, next) => {
         await model.Pickup_Info.update({
             time: time
         }, {
-            where: {id: id, day: day}
+            where: {subscriptionDetailId: id, day: day}
         })
             .then(result => {
                 console.log('데이터 수정 완료');
@@ -128,4 +128,73 @@ exports.fixed_pickup_date = async (req, res, next) => {
             console.log('픽업 날짜 고정에 실패했습니다.');
             res.send('픽업 날짜 고정에 실패했습니다.')
         });
+}
+
+/** Pickup Cancel **/
+exports.pickup_cancel = async (req, res, next) => {
+
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const day = data.day;
+
+    await model.Pickup_Info.destroy({
+        where: {subscriptionDetailId: id, day: day}
+    })
+        .then(result => {
+            console.log('예약이 취소되었습니다.');
+            res.send('예약이 취소되었습니다.')
+        })
+        .catch(err => {
+            console.log('예약 취소를 실패했습니다.');
+            console.log(err);
+            res.send('예약 취소를 실패했습니다.')
+        });
+}
+
+/** Request Modify **/
+exports.request_modify = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const request = data.request;
+
+    await model.Subscription_Detail.update({
+        request: request
+    }, {
+        where: {id: id}
+    })
+        .then(result => {
+            console.log('요청사항이 수정되었습니다.');
+            res.send('요청사항이 수정되었습니다.')
+        })
+        .catch(err => {
+            console.log('요청사항 수정에 실패했습니다.');
+            res.send('요청사항 수정에 실패했습니다.')
+        });
+}
+
+/** Subscription Info **/
+exports.subscription = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const subscription = await model.Subscription.findOne({
+        where: {id: id}
+    });
+
+    if (subscription.status == 'N') {
+        res.send('N');
+    } else {
+        const subscription_detail = await model.Subscription_Detail.findOne({
+            include: [{
+                model: model.Pickup_Info
+            }],
+            where: {id: id}
+        });
+        res.json(subscription_detail);
+    }
 }
