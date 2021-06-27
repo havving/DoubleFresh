@@ -14,6 +14,9 @@ router.get('/json', controller.json);
 /** Pickup Time **/
 router.put('/pickup_time', controller.pickup_time);
 
+/** Pickup Time Modify **/
+router.put('/pickup_time_modify', controller.pickup_time_modify);
+
 /** Fixed Pickup Time **/
 router.put('/fixed_pickup_time', controller.fixed_pickup_time);
 

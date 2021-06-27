@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     day: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true
     },
     time: {
       type: DataTypes.TIME,

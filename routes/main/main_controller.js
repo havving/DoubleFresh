@@ -48,6 +48,15 @@ exports.pickup_time = async (req, res, next) => {
     const time = data.time;
     const salad = data.salad;
 
+    const subscription_detail = await model.Subscription_Detail.findOne({
+        where: {id: id}
+    });
+
+    if (subscription_detail.pickup_remain_count == 0) {
+        res.send('더이상 예약할 수 없습니다.');
+        return;
+    }
+
     const pickup_info = await model.Pickup_Info.findOne({
         where: {subscriptionDetailId: id, day: day}
     });
@@ -60,6 +69,12 @@ exports.pickup_time = async (req, res, next) => {
             salad: salad
         })
             .then(result => {
+                model.Subscription_Detail.update({
+                    pickup_count: subscription_detail.pickup_count + 1,
+                    pickup_remain_count: subscription_detail.pickup_remain_count - 1
+                }, {
+                    where: {id: id}
+                })
                 console.log('데이터 추가 완료');
                 res.send('예약 완료');
             })
@@ -82,6 +97,31 @@ exports.pickup_time = async (req, res, next) => {
                 res.send('예약시간 수정 실패');
             });
     }
+}
+
+/** Pickup Time Modify **/
+exports.pickup_time_modify = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const data = req.body;
+
+    const id = data.id;
+    const day = data.day;
+    const time = data.time;
+
+    await model.Pickup_Info.update({
+        time: time
+    }, {
+        where: {subscriptionDetailId: id, day: day}
+    })
+        .then(result => {
+            console.log('데이터 수정 완료');
+            res.send('예약시간 수정 완료');
+        })
+        .catch(err => {
+            console.log('데이터 수정 실패');
+            res.send('예약시간 수정 실패');
+        });
+
 }
 
 /** Fixed Pickup Time **/
@@ -191,7 +231,7 @@ exports.subscription = async (req, res, next) => {
     } else {
         const subscription_detail = await model.Subscription_Detail.findOne({
             include: [{
-                model: model.Pickup_Info
+                model: model.Pickup_Info,
             }],
             where: {id: id}
         });
