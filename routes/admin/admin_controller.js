@@ -8,8 +8,9 @@ exports.user_info = async (req, res, next) => {
         const user = await model.User_Info.findAll({
             include: [{
                 model: model.Subscription,
+                attributes: ['status'],
             }],
-            attributes: ['id', 'password', 'name', 'phone', 'status'],
+            attributes: { exclude: ['id', 'password', 'name', 'phone'] },
             where: {
                 id: {
                     [Op.not]: 9999

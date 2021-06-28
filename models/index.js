@@ -24,4 +24,7 @@ db.Pickup_Info.belongsTo(db.Subscription_Detail, {
     foreignKey: "subscriptionDetailId",
 });
 
+db.User_Info.hasOne(db.Subscription);
+db.Subscription.belongsTo(db.User_Info);
+
 module.exports = db;

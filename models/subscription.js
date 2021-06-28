@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('subscription', {
-    id: {
+  const subscription = sequelize.define('subscription', {
+    userInfoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
@@ -26,4 +26,15 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+
+  subscription.associate = function (models) {
+    subscription.belongsTo(models.User_Info, {
+      onDelete: 'cascade',
+      foreignKey: {
+        allowNull: true,
+      },
+    });
+  };
+
+  return subscription;
 };
