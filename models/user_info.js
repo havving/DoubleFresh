@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('user_info', {
+  const user_info = sequelize.define('user_info', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -33,4 +33,13 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+
+  user_info.associate = function (models) {
+    models.User_Info.hasOne(models.Subscription, {
+      foreignKey: 'id',
+      onDelete: 'cascade',
+    });
+  };
+
+  return user_info;
 };

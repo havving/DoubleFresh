@@ -223,7 +223,7 @@ exports.subscription = async (req, res, next) => {
 
     const id = data.id;
     const subscription = await model.Subscription.findOne({
-        where: {id: id}
+        where: {userInfoId: id}
     });
 
     if (subscription.status == 'N') {
