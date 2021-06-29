@@ -7,8 +7,8 @@ const passport = require('../config/passport');
 /* GET users listing. */
 router.get('/', controller.users);
 
-router.get('/signup', controller.signup);
-router.post('/signup_insert', controller.signup_insert);
+/** Add User **/
+router.post('/signup', controller.signup);
 
 router.get('/login', controller.login);
 router.post('/login_user', controller.login_user);
