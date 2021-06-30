@@ -45,3 +45,24 @@ exports.user_info_detail = async (req, res, next) => {
         next(error);
     }
 };
+
+/** Pickup Info **/
+exports.pickup = async (req, res, next) => {
+
+    const day = req.body.day;
+
+    // SQL TEST
+    const sql = 'SELECT * FROM user_info WHERE id=?';
+
+
+    try {
+        const pickup = await model.Pickup_Info.findAll({
+            where: {day: day}
+        });
+
+        res.json(pickup);
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
