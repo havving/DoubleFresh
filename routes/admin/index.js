@@ -6,6 +6,6 @@ router.get('/user_info', controller.user_info);
 
 router.get('/user_info_detail/:id', controller.user_info_detail);
 
-router.get('/pickup', controller.pickup);
+router.get('/pickup/:day', controller.pickup);
 
 module.exports = router;

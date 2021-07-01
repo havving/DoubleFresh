@@ -23,15 +23,16 @@ exports.users = async (req, res, next) => {
 exports.signup = async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
 
-    const id = req.body.id;
-    const name = req.body.name;
-    const phone = req.body.phone;
+    const data = req.body;
 
-    const status = req.body.status;
+    const id = data.id;
+    const name = data.name;
+    const phone = data.phone;
 
-    const subWeekCount = req.body.sub_week_count;
-    const pickupTotalCount = req.body.pickup_total_count;
-    const request = req.body.request;
+    const status = data.status;
+
+    const subWeekCount = parseInt(data.count);
+    const request = data.request;
 
     await model.User_Info.create({
         id: id,
@@ -47,8 +48,8 @@ exports.signup = async (req, res, next) => {
         id: id,
         sub_week_count: subWeekCount,
         // total과 reamin은 최초에 같다. (count는 default 0)
-        pickup_total_count: pickupTotalCount,
-        pickup_remain_count: pickupTotalCount,
+        pickup_total_count: subWeekCount*5,
+        pickup_remain_count: subWeekCount*5,
         request: request,
     })
         .then(result => {

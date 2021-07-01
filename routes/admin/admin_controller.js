@@ -1,24 +1,25 @@
+// ★ DB connection
+const mysql = require('mysql');
+const dbConfig = require('../config/db_config');
+const connection = mysql.createConnection(dbConfig);
+
 // model
 const model = require('../../models');
-const {Op} = require("sequelize");
 
 /** User Info **/
 exports.user_info = async (req, res, next) => {
-    try {
-        const user = await model.User_Info.findAll({
-            attributes: ['id', 'name', 'phone'],
-            where: {
-                id: {
-                    [Op.not]: 9999
-                }
-            }
-        });
+    const sql = 'SELECT user_info.id, user_info.name, user_info.phone, subscription.status ' +
+        'FROM user_info ' +
+        'LEFT OUTER JOIN subscription ON user_info.id = subscription.userInfoId ' +
+        'WHERE user_info.id != 9999;'
 
-        res.json(user);
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
+    connection.query(sql, function (err, results, fields) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(results);
+        res.send(results);
+    });
 };
 
 /** User Info Detail **/
@@ -48,21 +49,19 @@ exports.user_info_detail = async (req, res, next) => {
 
 /** Pickup Info **/
 exports.pickup = async (req, res, next) => {
+    const day = req.params.day;
 
-    const day = req.body.day;
+    const sql = 'SELECT user_info.name, pickup_info.time, subscription_detail.request ' +
+        'FROM user_info ' +
+        'LEFT OUTER JOIN pickup_info ON user_info.id = pickup_info.subscriptionDetailId ' +
+        'LEFT OUTER JOIN subscription_detail ON user_info.id = subscription_detail.id ' +
+        'WHERE pickup_info.day=?';
 
-    // SQL TEST
-    const sql = 'SELECT * FROM user_info WHERE id=?';
-
-
-    try {
-        const pickup = await model.Pickup_Info.findAll({
-            where: {day: day}
-        });
-
-        res.json(pickup);
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
+    connection.query(sql, [day], function (err, results, fields) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(results);
+        res.send(results);
+    });
 };
