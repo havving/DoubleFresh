@@ -96,46 +96,20 @@ exports.login_user = async (req, res, next) => {
 
     if (user !== null) {
         if (user.password === password) {
-            console.log('login success!');
             res.json(user);
         } else {
-            console.log('id and password does not match.');
-            res.send('ID and Password does not match.');
+            res.send('ID와 패스워드가 일치하지 않습니다.');
         }
     } else {
-        console.log('id does not exists.');
-        res.send('ID does not exists.');
+        res.send('ID가 존재하지 않습니다.');
     }
-
-    // SQL
-    /*const sql = 'SELECT * FROM user_info WHERE id=?';
-    connection.query(sql, [id], function (err, result) {
-        if (err) console.log(err);
-        if (result.length > 0) {
-            if (result[0].password == password) {
-                console.log('login success!');
-                // const text = 'ID: ' + id;
-                isLogin = true;
-                res.send(isLogin);
-                // res.render('loginSuccess', {page: 'loginSuccess', 'user_id': req.session.user_id});
-            } else {
-                console.log('id and password does not match.');
-                res.send('ID and Password does not match.');
-                // res.render('loginFail', {page: 'loginFail'});
-            }
-        } else {
-            console.log('id does not exists.');
-            res.send('ID does not exists.');
-            // res.render('loginFail', {page: 'loginFail'});
-        }
-    });*/
 }
 
 /** Logout **/
 exports.logout = (req, res, next) => {
     req.logout();
     res.redirect('/user/login');
-};
+}
 
 /** PW Modify **/
 exports.pw_modify = async (req, res, next) => {
