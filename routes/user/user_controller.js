@@ -13,9 +13,9 @@ exports.users = async (req, res, next) => {
     try {
         const user = await model.User_Info.findAll();
         res.send(user);
-    } catch (error) {
-        console.error(error);
-        next(error);
+    } catch (err) {
+        console.error(err);
+        next(err);
     }
 }
 
@@ -53,12 +53,11 @@ exports.signup = async (req, res, next) => {
         request: request,
     })
         .then(result => {
-            console.log('사용자 추가 완료');
-            res.send('사용자 추가 완료');
+            res.send('구독자를 추가했습니다.');
         })
         .catch(err => {
             console.error(err);
-            res.send('사용자 추가 실패');
+            res.send('구독차 추가를 실패했습니다.');
         });
 
 };
@@ -125,11 +124,10 @@ exports.pw_modify = async (req, res, next) => {
         where: {id: id}
     })
         .then(result => {
-            console.log('비밀번호가 변경되었습니다.');
             res.send('비밀번호가 변경되었습니다.')
         })
         .catch(err => {
-            console.log('비밀번호 변경을 실패했습니다.');
+            console.log(err);
             res.send('비밀번호 변경을 실패했습니다.')
         });
 }

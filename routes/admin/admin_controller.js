@@ -41,9 +41,9 @@ exports.user_info_detail = async (req, res, next) => {
             res.json(user);
         }
 
-    } catch (error) {
-        console.error(error);
-        next(error);
+    } catch (err) {
+        console.error(err);
+        next(err);
     }
 };
 
