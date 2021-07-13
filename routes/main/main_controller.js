@@ -119,11 +119,10 @@ exports.fixed_pickup_date = async (req, res, next) => {
         where: {id: id}
     })
         .then(result => {
-            console.log('픽업 날짜가 고정되었습니다.');
             res.send('픽업 날짜가 고정되었습니다.')
         })
         .catch(err => {
-            console.log('픽업 날짜 고정에 실패했습니다.');
+            console.log(err);
             res.send('픽업 날짜 고정에 실패했습니다.')
         });
 }
