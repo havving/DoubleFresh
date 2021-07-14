@@ -119,6 +119,7 @@ exports.fixed_pickup_date = async (req, res, next) => {
         where: {id: id}
     })
         .then(result => {
+            console.log(result);
             res.send('픽업 날짜가 고정되었습니다.')
         })
         .catch(err => {
@@ -150,6 +151,7 @@ exports.pickup_cancel = async (req, res, next) => {
             }, {
                 where: {id: id}
             })
+            console.log(result);
             res.send('예약이 취소되었습니다.')
         })
         .catch(err => {
@@ -172,6 +174,7 @@ exports.request_modify = async (req, res, next) => {
         where: {id: id}
     })
         .then(result => {
+            console.log(result);
             res.send('요청사항이 수정되었습니다.')
         })
         .catch(err => {
