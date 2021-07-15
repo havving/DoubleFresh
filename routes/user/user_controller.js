@@ -53,6 +53,7 @@ exports.signup = async (req, res, next) => {
         request: request,
     })
         .then(result => {
+            console.log(result);
             res.send('구독자를 추가했습니다.');
         })
         .catch(err => {
@@ -124,6 +125,7 @@ exports.pw_modify = async (req, res, next) => {
         where: {id: id}
     })
         .then(result => {
+            console.log(result);
             res.send('비밀번호가 변경되었습니다.')
         })
         .catch(err => {
