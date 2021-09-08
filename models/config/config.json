@@ -3,7 +3,7 @@
     "username": "root",
     "password": "Having21325!",
     "database": "double_fresh",
-    "host": "localhost",
+    "host": "192.168.56.1",
     "dialect": "mysql"
   },
   "test": {
