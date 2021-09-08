@@ -39,9 +39,11 @@ exports.pickup_time = async (req, res, next) => {
                     }, {
                         where: {id: id}
                     })
+                    console.log(result);
                     res.send('예약되었습니다.');
                 })
                 .catch(err => {
+                    console.log(err);
                     res.send('예약에 실패했습니다.');
                 });
         } else {
@@ -51,6 +53,7 @@ exports.pickup_time = async (req, res, next) => {
                 where: {subscriptionDetailId: id, day: day}
             })
                 .then(result => {
+                    console.log(result);
                     res.send('예약시간을 수정하였습니다.');
                 })
                 .catch(err => {
