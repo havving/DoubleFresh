@@ -40,7 +40,6 @@ exports.user_info_detail = async (req, res, next) => {
             });
             res.json(user);
         }
-
     } catch (err) {
         console.error(err);
         next(err);

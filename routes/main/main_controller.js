@@ -138,11 +138,11 @@ exports.pickup_cancel = async (req, res, next) => {
     const id = data.id;
     const day = data.day;
 
-    const subscription_detail = await model.Subscription_Detail.findOne({
-        where: {id: id}
-    });
-
     try {
+        const subscription_detail = await model.Subscription_Detail.findOne({
+            where: {id: id}
+        });
+
         await model.Pickup_Info.destroy({
             where: {subscriptionDetailId: id, day: day}
         })

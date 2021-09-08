@@ -20,48 +20,6 @@ exports.users = async (req, res, next) => {
 }
 
 /** Add User **/
-/*exports.signup = async (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-
-    const data = req.body;
-
-    const id = data.id;
-    const name = data.name;
-    const phone = data.phone;
-
-    const status = data.status;
-
-    const subWeekCount = parseInt(data.count);
-    const request = data.request;
-
-    await model.User_Info.create({
-        id: id,
-        password: id,
-        name: name,
-        phone: phone
-    })
-    await model.Subscription.create({
-        userInfoId: id,
-        status: status
-    })
-    await model.Subscription_Detail.create({
-        id: id,
-        sub_week_count: subWeekCount,
-        // total과 reamin은 최초에 같다. (count는 default 0)
-        pickup_total_count: subWeekCount*5,
-        pickup_remain_count: subWeekCount*5,
-        request: request,
-    })
-        .then(result => {
-            console.log(result);
-            res.send('구독자를 추가했습니다.');
-        })
-        .catch(err => {
-            console.error(err);
-            res.send('구독차 추가를 실패했습니다.');
-        });
-};*/
-
 exports.signup = async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
 
