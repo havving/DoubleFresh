@@ -32,34 +32,34 @@ exports.pickup_time = async (req, res, next) => {
                 time: time,
                 salad: salad
             })
-                .then(result => {
+                // .then(result => {
                     model.Subscription_Detail.update({
                         pickup_count: subscription_detail.pickup_count + 1,
                         pickup_remain_count: subscription_detail.pickup_remain_count - 1
                     }, {
                         where: {id: id}
                     })
-                    console.log(result);
+                    // console.log(result);
                     res.send('예약되었습니다.');
-                })
-                .catch(err => {
+                // })
+                /*.catch(err => {
                     console.log(err);
                     res.send('예약에 실패했습니다.');
-                });
+                });*/
         } else {
             await model.Pickup_Info.update({
                 time: time
             }, {
                 where: {subscriptionDetailId: id, day: day}
             })
-                .then(result => {
-                    console.log(result);
+                // .then(result => {
+                //     console.log(result);
                     res.send('예약시간을 수정하였습니다.');
-                })
-                .catch(err => {
+                // })
+                /*.catch(err => {
                     console.log(err);
                     res.send('예약시간 수정을 실패했습니다.');
-                });
+                });*/
         }
     } catch (err) {
         console.error(err);
