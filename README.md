@@ -24,7 +24,7 @@ Dependency:
 
 빌드 및 배포
 
-AWS EC2(Elastic Compute Cloud)
+AWS EC2(Elastic Compute Cloud) (작업중)
 
 
 
